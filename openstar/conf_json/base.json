@@ -1,0 +1,74 @@
+
+{
+
+	"redis_Mod" : {"state":"on","ip":"127.0.0.1","Port" : 6379,"Password":""},
+
+	"autoSync":{"state":"Master/Slave/off","timeAt":5},
+
+	"Mod_state":"on",
+
+	"ngx_status":"on",
+
+	"realIpFrom_Mod" : "on",
+
+	"ip_Mod" : "on",
+
+	"host_method_Mod" : "off",
+
+	"rewrite_Mod" : "on",
+
+	"app_Mod" : "on",
+
+	"referer_Mod" : "on",
+
+	"uri_Mod" : "on",
+
+	"header_Mod" : "on",
+
+	"useragent_Mod" : "on",
+
+	"cookie_Mod" : "on",
+
+	"args_Mod" : "on",
+
+	"post_Mod" : "on",
+
+	"post_form":10240,
+
+	"network_Mod" : "on",
+
+	"replace_Mod" : "off",
+
+	"debug_Mod" : false,
+
+	"baseDir" : "/opt/openresty/openstar/",
+
+	"logPath" : "/opt/openresty/openstar/logs/",
+
+	"jsonPath" : "/opt/openresty/openstar/conf_json/",
+
+	"htmlPath" : "/opt/openresty/openstar/index/",
+
+	"denyMsg" : {"state":"on","msg":"openstar deny"},
+
+	"log_conf": {
+		"state":"on",
+		"filename":"waf.log",
+		"tb_formart":[
+			"$time",
+			"$remoteIp",
+			"$host",
+			"$ip",
+			"$method",
+			"$server_protocol",
+			"$status",
+			"$request_uri",
+			"$useragent",
+			"$referer",
+			"waf_log:",
+			"$waf_log",
+			"\n"
+		],
+		"tb_concat":" "
+	}
+}

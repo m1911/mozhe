@@ -1,0 +1,17 @@
+
+[
+    {
+        "state": "on",
+        "uri": ["^/abc.do$","jio"],
+        "hostname": ["pass.game.com",""],
+        "referer": ["^.*/(www\\.hao123\\.com|www3\\.hao123\\.com)$","jio",true],
+        "action":"deny"
+    },
+    {
+        "state": "on",
+        "uri": ["\\.(gif|jpg|png|jpeg|bmp|ico)$","jio"],
+        "hostname": ["localhost",""],
+        "referer": ["*",""],
+        "action":"allow"
+    }
+]
