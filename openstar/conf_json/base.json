@@ -1,7 +1,7 @@
 
 {
 
-	"redis_Mod" : {"state":"on","ip":"127.0.0.1","Port" : 6379,"Password":""},
+	"redis_Mod" : {"state":"ooffn","ip":"127.0.0.1","Port" : 6379,"Password":""},
 
 	"autoSync":{"state":"Master/Slave/off","timeAt":5},
 
@@ -9,13 +9,13 @@
 
 	"ngx_status":"on",
 
-	"realIpFrom_Mod" : "on",
+	"realIpFrom_Mod" : "off",
 
 	"ip_Mod" : "on",
 
 	"host_method_Mod" : "off",
 
-	"rewrite_Mod" : "on",
+	"rewrite_Mod" : "off",
 
 	"app_Mod" : "on",
 
@@ -35,7 +35,7 @@
 
 	"post_form":10240,
 
-	"network_Mod" : "on",
+	"network_Mod" : "off",
 
 	"replace_Mod" : "off",
 
@@ -49,7 +49,7 @@
 
 	"htmlPath" : "/opt/openresty/openstar/index/",
 
-	"denyMsg" : {"state":"on","msg":"openstar deny"},
+	"denyMsg" : {"state":"on","msg":"mozhe deny"},
 
 	"log_conf": {
 		"state":"on",
