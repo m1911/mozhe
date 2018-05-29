@@ -17,9 +17,9 @@
 
 	"rewrite_Mod" : "off",
 
-	"app_Mod" : "on",
+	"app_Mod" : "off",
 
-	"referer_Mod" : "on",
+	"referer_Mod" : "off",
 
 	"uri_Mod" : "on",
 
@@ -49,7 +49,7 @@
 
 	"htmlPath" : "/opt/openresty/openstar/index/",
 
-	"denyMsg" : {"state":"on","msg":"mozhe deny"},
+	"denyMsg" : {"state":"on","msg":"mozhe security deny"},
 
 	"log_conf": {
 		"state":"on",
