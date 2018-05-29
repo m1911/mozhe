@@ -1,7 +1,5 @@
-
 {
-
-	"redis_Mod" : {"state":"ooffn","ip":"127.0.0.1","Port" : 6379,"Password":""},
+	"redis_Mod" : {"state":"off","ip":"127.0.0.1","Port" : 6379,"Password":""},
 
 	"autoSync":{"state":"Master/Slave/off","timeAt":5},
 
