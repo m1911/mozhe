@@ -1,7 +1,8 @@
 {
+
 	"redis_Mod" : {"state":"off","ip":"127.0.0.1","Port" : 6379,"Password":""},
 
-	"autoSync":{"state":"Master/Slave/off","timeAt":5},
+	"autoSync":{"state":"off","timeAt":5},
 
 	"Mod_state":"on",
 
@@ -15,7 +16,7 @@
 
 	"rewrite_Mod" : "off",
 
-	"app_Mod" : "off",
+	"app_Mod" : "on",
 
 	"referer_Mod" : "off",
 
