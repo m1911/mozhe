@@ -7,4 +7,5 @@
 ```docker run --name waf -p 80:80 -p 443 -v /data/openstar:/opt/openresty/openstar -v /data/vhost:/opt/openresty/nginx/conf/vhost -v /data/ssl:/opt/openresty/nginx/conf/ssl -d nginx```
 
 说明：
--v：挂载本地目录到容器里面
+
+<br>-v：挂载本地目录到容器里面
