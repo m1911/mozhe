@@ -4,7 +4,7 @@
 2、创建一个vhost目录用来管理添加删除虚拟机
 
 # 启动命令
-docker run --name waf -p 80:80 -p 443 -v /data/openstar:/opt/openresty/openstar -v /data/vhost:/opt/openresty/nginx/conf/vhost -v /data/ssl:/opt/openresty/nginx/conf/ssl -d nginx 
+```docker run --name waf -p 80:80 -p 443 -v /data/openstar:/opt/openresty/openstar -v /data/vhost:/opt/openresty/nginx/conf/vhost -v /data/ssl:/opt/openresty/nginx/conf/ssl -d nginx```
 
 说明：
 -v：挂载本地目录到容器里面
