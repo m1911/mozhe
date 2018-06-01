@@ -109,7 +109,6 @@ RUN cd ${SRC_DIR} \
     && ln -sf ${Install_DIR}/openstar/conf/proxy.conf ${Install_DIR}/nginx/conf/proxy.conf \
     && ln -sf ${Install_DIR}/openstar/conf/vhost.conf ${Install_DIR}/nginx/conf/vhost.conf \
     && ln -sf ${Install_DIR}/openstar/conf/waf.conf ${Install_DIR}/nginx/conf/waf.conf \
-    && cp ${Install_DIR}/openstar/conf/https.conf ${Install_DIR}/nginx/conf/vhost/domain.conf \
 	&& chown www:www -R ${Install_DIR}
 
 #Setting environment variables
