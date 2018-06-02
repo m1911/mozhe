@@ -102,13 +102,14 @@ RUN cd ${SRC_DIR} \
     && git clone https://github.com/m1911/mozhe.git \
     && cd mozhe \
     && mv openstar ${Install_DIR} \
+	&& mv ngx_conf ${Install_DIR} \
 	&& rm -rf ${Install_DIR}/nginx/conf/nginx.conf \    
 	&& mkdir -p ${Install_DIR}/nginx/conf/vhost \
     && mkdir -p ${Install_DIR}/nginx/conf/ssl \
-    && ln -sf ${Install_DIR}/openstar/conf/nginx.conf ${Install_DIR}/nginx/conf/nginx.conf \
-    && ln -sf ${Install_DIR}/openstar/conf/proxy.conf ${Install_DIR}/nginx/conf/proxy.conf \
-    && ln -sf ${Install_DIR}/openstar/conf/vhost.conf ${Install_DIR}/nginx/conf/vhost.conf \
-    && ln -sf ${Install_DIR}/openstar/conf/waf.conf ${Install_DIR}/nginx/conf/waf.conf \
+    && ln -sf ${Install_DIR}/ngx_conf/nginx.conf ${Install_DIR}/nginx/conf/nginx.conf \
+    && ln -sf ${Install_DIR}/ngx_conf/proxy.conf ${Install_DIR}/nginx/conf/proxy.conf \
+    && ln -sf ${Install_DIR}/ngx_conf/vhost.conf ${Install_DIR}/nginx/conf/vhost.conf \
+    && ln -sf ${Install_DIR}/ngx_conf/waf.conf ${Install_DIR}/nginx/conf/waf.conf \
 	&& chown www:www -R ${Install_DIR}
 
 #Setting environment variables
