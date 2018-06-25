@@ -13,13 +13,8 @@ ARG Jemalloc_Version="5.1.0"
 ARG Pagespeed_Version="1.13.35.2"
 ARG Install_DIR="/opt/openresty"
 
-RUN mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup \
-    && curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo \
-	&& yum clean all \
-    && yum makecache
-
 RUN yum update -y \
-    && yum install -y wget make gcc gcc-c++ perl pcre-devel openssl openssl-devel git unzip zip bzip2 libuuid-devel openssh-server
+    && yum install -y wget make gcc gcc-c++ perl pcre-devel openssl openssl-devel git unzip zip bzip2 libuuid-devel
 
 #Creating Users and directories
 RUN groupadd www \
@@ -120,8 +115,7 @@ RUN echo "PATH=${Install_DIR}/nginx/sbin:\$PATH" >> /etc/profile \
 RUN rm -rf /etc/localtime \
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
-EXPOSE 80
-EXPOSE 443
+EXPOSE 80 443
 
 CMD ["/opt/openresty/nginx/sbin/nginx", "-g", "daemon off;"]
 
