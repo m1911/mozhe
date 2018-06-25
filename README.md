@@ -6,9 +6,10 @@
 
 # 启动命令
 使用docker-compose 来启动目录下面的nginx.yml 配置文件
-使用docker-compose -f nginx.yml 来指定配置文件进行启动
-下面是配置文件内容
-```version: '2'
+<br>使用docker-compose -f nginx.yml 来指定配置文件进行启动
+<br>下面是配置文件内容
+```
+version: '2'
 services:
   nginx:
     image: 'm1911/mozhe'
@@ -22,4 +23,5 @@ services:
       - /nginx/openstar:/opt/openresty/openstar 
       - /nginx/vhost:/opt/openresty/nginx/conf/vhost 
       - /nginx/ssl:/opt/openresty/nginx/conf/ssl 
-      - /nginx/wwwlogs:/data/wwwlogs```
+      - /nginx/wwwlogs:/data/wwwlogs
+```
