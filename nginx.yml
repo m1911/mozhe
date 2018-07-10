@@ -11,5 +11,5 @@ services:
       - /nginx/ngx_conf:/opt/openresty/ngx_conf:ro
       - /nginx/openstar:/opt/openresty/openstar 
       - /nginx/vhost:/opt/openresty/nginx/conf/vhost 
-      - /nginx/ssl:/opt/openresty/nginx/conf/ssl 
+      - /nginx/ssl:/opt/openresty/nginx/conf/ssl
       - /nginx/wwwlogs:/data/wwwlogs
