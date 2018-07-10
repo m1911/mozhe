@@ -20,10 +20,11 @@ RUN yum update -y \
 RUN groupadd www \
     && useradd -s /sbin/nologin -g www www \
     && mkdir -p ${SRC_DIR} \
+	&& mkdir -p /data/cache \
     && mkdir -p /data/wwwlogs \
     && mkdir -p /data/ngx_pagespeed \
-    && chown www.www -R  /data/ngx_pagespeed /data/wwwlogs \
-    && chmod -R 777  /data/ngx_pagespeed /data/wwwlogs \
+    && chown www.www -R  /data/ngx_pagespeed /data/wwwlogs /data/cache \
+    && chmod -R 777  /data/ngx_pagespeed /data/wwwlogs /data/cache \
     && cd ${SRC_DIR}
 
 #Install jemalloc

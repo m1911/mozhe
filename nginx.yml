@@ -13,3 +13,4 @@ services:
       - /nginx/vhost:/opt/openresty/nginx/conf/vhost 
       - /nginx/ssl:/opt/openresty/nginx/conf/ssl
       - /nginx/wwwlogs:/data/wwwlogs
+      - /nginx/cache:/data/cache
