@@ -1,8 +1,8 @@
 # Docker启动说明
 
-1、国外主机使用 git clone https://github.com/m1911/mozhe.git 下载 把目录里面的出docker以为的目录负载到需要挂载到docker里面目录下面
+1、国外主机使用 git clone https://github.com/m1911/mozhe.git 下载 把目录里面的除了docker以为的目录负载到需要挂载到docker里面目录下面
 
-<br>2、国内主机使用 git clone https://gitee.com/m1911/mozhe.git 下载 把目录里面的出docker以为的目录负载到需要挂载到docker里面目录下面
+<br>2、国内主机使用 git clone https://gitee.com/m1911/mozhe.git 下载 把目录里面的除了docker以为的目录负载到需要挂载到docker里面目录下面
 
 # 启动命令
 使用docker-compose 来启动目录下面的nginx.yml 配置文件
