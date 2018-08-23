@@ -1,3 +1,5 @@
+**注：先安装docker，再来启动否则可能会有权限问题导致缓存无法删除。
+
 # Docker启动说明
 
 1、国外主机使用 git clone https://github.com/m1911/mozhe.git 下载 把目录里面的除了docker以为的目录负载到需要挂载到docker里面目录下面
