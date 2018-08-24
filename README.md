@@ -1,4 +1,10 @@
-**注：先安装docker，再来启动否则可能会有权限问题导致缓存无法删除。
+**注：<br>
+使用
+```
+groupadd www
+useradd -M -s /sbin/nologin -g www www
+```
+创建www用户和组，不创建的话映射出来的缓存目录会应为权限问题无法删除缓存
 
 # Docker启动说明
 
