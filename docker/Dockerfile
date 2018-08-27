@@ -2,19 +2,19 @@
 # https://github.com/openresty/
 
 FROM centos:7
-MAINTAINER m1911
+MAINTAINER m1911 2018年8月27日
 
 ARG Make_J="1"
 ARG SRC_DIR="/opt/src"
 ARG Resty_Version="1.13.6.2"
-ARG Ngx_cache_purge="2.4.2"
-ARG Libressl_Version="2.7.3"
+ARG Ngx_cache_purge="2.5"
+ARG Libressl_Version="2.7.4"
 ARG Jemalloc_Version="5.1.0"
 ARG Pagespeed_Version="1.13.35.2"
 ARG Install_DIR="/opt/openresty"
 
 RUN yum update -y \
-    && yum install -y wget make gcc gcc-c++ perl pcre-devel openssl openssl-devel git unzip zip bzip2 libuuid-devel
+    && yum install -y wget make gcc gcc-c++ perl pcre-devel openssl openssl-devel git bzip2 libuuid-devel
 
 #Creating Users and directories
 RUN groupadd www \
@@ -91,7 +91,8 @@ RUN cd ${SRC_DIR} \
     && cd ${Install_DIR} \
 	&& chown www:www nginx/sbin/nginx \
     && chmod 750 nginx/sbin/nginx \
-	&& chmod u+s nginx/sbin/nginx 
+	&& chmod u+s nginx/sbin/nginx \
+	&& ln -s /opt/openresty/nginx/sbin/* /usr/local/sbin/
 
 #Install openstar
 RUN cd ${SRC_DIR} \
@@ -108,15 +109,11 @@ RUN cd ${SRC_DIR} \
     && ln -sf ${Install_DIR}/ngx_conf/waf.conf ${Install_DIR}/nginx/conf/waf.conf \
 	&& chown www:www -R ${Install_DIR}
 
-#Setting environment variables
-RUN echo "PATH=${Install_DIR}/nginx/sbin:\$PATH" >> /etc/profile \
-    && export PATH
-
 #Set_Timezone	
 RUN rm -rf /etc/localtime \
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
-EXPOSE 80 443
+EXPOSE 9080 9443
 
-CMD ["/opt/openresty/nginx/sbin/nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]
 

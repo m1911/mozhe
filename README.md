@@ -1,10 +1,10 @@
-**注：<br>
-使用
+注：<br>
 ```
+使用
 groupadd www
 useradd -M -s /sbin/nologin -g www www
 ```
-创建www用户和组，不创建的话映射出来的缓存目录会应为权限问题无法删除缓存
+创建www用户和组，不创建的话映射出来的缓存目录会因为权限问题无法删除缓存
 
 # Docker启动说明
 
