@@ -5,8 +5,8 @@ services:
     container_name: nginx
     restart: always #自动重启
     ports:
-      - '80:80'
-      - '443:443'
+      - '80:9080'
+      - '443:9443'
     volumes:
       - /nginx/ngx_conf:/opt/openresty/ngx_conf:ro
       - /nginx/openstar:/opt/openresty/openstar 
