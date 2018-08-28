@@ -10,7 +10,7 @@ services:
     volumes:
       - /nginx/ngx_conf:/opt/openresty/ngx_conf:ro
       - /nginx/openstar:/opt/openresty/openstar 
-      - /nginx/vhost:/opt/openresty/nginx/conf/vhost 
+      - /nginx/vhost:/opt/openresty/nginx/conf/vhost:ro 
       - /nginx/ssl:/opt/openresty/nginx/conf/ssl
       - /nginx/wwwlogs:/data/wwwlogs
       - /nginx/cache:/data/cache
