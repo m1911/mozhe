@@ -24,7 +24,7 @@ RUN apt-get update \
     && groupadd www \
     && useradd -s /sbin/nologin -g www www \
     && mkdir -p ${SRC_DIR} \
-	&& mkdir -p /data/cache \
+    && mkdir -p /data/cache \
     && mkdir -p /data/wwwlogs \
     && mkdir -p /data/ngx_pagespeed \
     && chown www.www -R  /data/ngx_pagespeed /data/wwwlogs /data/cache \
@@ -38,37 +38,37 @@ RUN apt-get update \
     && echo '/usr/local/lib' > /etc/ld.so.conf.d/local.conf \
     && ldconfig \
     && cd .. \
-	&& wget -c https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-${Libressl_Version}.tar.gz \
+    && wget -c https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-${Libressl_Version}.tar.gz \
     && tar zxf libressl-${Libressl_Version}.tar.gz \
     && cd ${SRC_DIR} \
     && wget -c https://github.com/apache/incubator-pagespeed-ngx/archive/v${Pagespeed_Version}-stable.tar.gz \
     && tar zxf v${Pagespeed_Version}-stable.tar.gz \ 
     && mv incubator-pagespeed-ngx-${Pagespeed_Version}-stable/ ngx_pagespeed \
-	&& cd ngx_pagespeed \
-	&& wget -c https://dl.google.com/dl/page-speed/psol/${Pagespeed_Version}-x64.tar.gz \
-	&& tar zxf ${Pagespeed_Version}-x64.tar.gz \
-	&& cd .. \
+    && cd ngx_pagespeed \
+    && wget -c https://dl.google.com/dl/page-speed/psol/${Pagespeed_Version}-x64.tar.gz \
+    && tar zxf ${Pagespeed_Version}-x64.tar.gz \
+    && cd .. \
     && wget -c https://github.com/nginx-modules/ngx_cache_purge/archive/${Ngx_cache_purge}.tar.gz \
     && tar zxf ${Ngx_cache_purge}.tar.gz \
-	&& wget -c http://luajit.org/download/LuaJIT-2.1.0-beta3.tar.gz \
-	&& tar zxf LuaJIT-2.1.0-beta3.tar.gz \
-	&& cd LuaJIT-2.1.0-beta3 \
-	&& make && make install \
-	&& cd .. \
-	&& wget -c https://github.com/openresty/lua-cjson/archive/${Lua_cjson}.tar.gz \
-	&& tar zxf ${Lua_cjson}.tar.gz \
-	&& cd lua-cjson-${Lua_cjson} \
-	&& sed -i 's@^LUA_INCLUDE_DIR.*@&/luajit-2.1@' Makefile \
+    && wget -c http://luajit.org/download/LuaJIT-2.1.0-beta3.tar.gz \
+    && tar zxf LuaJIT-2.1.0-beta3.tar.gz \
+    && cd LuaJIT-2.1.0-beta3 \
     && make && make install \
-	&& cd .. \
-	&& wget -c https://github.com/simplresty/ngx_devel_kit/archive/v${Ngx_devel_kit}.tar.gz \
-	&& tar zxf v${Ngx_devel_kit}.tar.gz \
-	&& wget -c https://github.com/openresty/lua-nginx-module/archive/v${Nginx_lua_module}.tar.gz \
-	&& tar zxf v${Nginx_lua_module}.tar.gz \
-	&& wget -c https://github.com/alibaba/tengine/archive/tengine-${Tengine_Version}.tar.gz \
+    && cd .. \
+    && wget -c https://github.com/openresty/lua-cjson/archive/${Lua_cjson}.tar.gz \
+    && tar zxf ${Lua_cjson}.tar.gz \
+    && cd lua-cjson-${Lua_cjson} \
+    && sed -i 's@^LUA_INCLUDE_DIR.*@&/luajit-2.1@' Makefile \
+    && make && make install \
+    && cd .. \
+    && wget -c https://github.com/simplresty/ngx_devel_kit/archive/v${Ngx_devel_kit}.tar.gz \
+    && tar zxf v${Ngx_devel_kit}.tar.gz \
+    && wget -c https://github.com/openresty/lua-nginx-module/archive/v${Nginx_lua_module}.tar.gz \
+    && tar zxf v${Nginx_lua_module}.tar.gz \
+    && wget -c https://github.com/alibaba/tengine/archive/tengine-${Tengine_Version}.tar.gz \
     && tar zxf tengine-${Tengine_Version}.tar.gz \
     && cd tengine-tengine-${Tengine_Version} \
-	&& export LUAJIT_LIB=/usr/local/lib \
+    && export LUAJIT_LIB=/usr/local/lib \
     && export LUAJIT_INC=/usr/local/include/luajit-2.1 \
     && ./configure \
 	    --user=www \
@@ -92,29 +92,29 @@ RUN apt-get update \
     && make && make -j${Make_J} install \
     && chown www:www -R ${Install_DIR} \
     && cd ${Install_DIR} \
-	&& chown www:www sbin/nginx \
+    && chown www:www sbin/nginx \
     && chmod 750 sbin/nginx \
-	&& chmod u+s sbin/nginx \
-	&& ln -s ${Install_DIR}/sbin/* /usr/local/sbin/ \
-	&& ln -s /usr/local/lib/libluajit-5.1.so.2 /lib64/libluajit-5.1.so.2 \
-	&& cd ${SRC_DIR} \
+    && chmod u+s sbin/nginx \
+    && ln -s ${Install_DIR}/sbin/* /usr/local/sbin/ \
+    && ln -s /usr/local/lib/libluajit-5.1.so.2 /lib64/libluajit-5.1.so.2 \
+    && cd ${SRC_DIR} \
     && git clone https://github.com/m1911/mozhe.git \
     && cd mozhe/tengine \
-	&& mv openstar ${Install_DIR} \
-	&& mv ngx_conf ${Install_DIR} \
-	&& rm -rf ${Install_DIR}/conf/nginx.conf \    
-	&& mkdir -p ${Install_DIR}/conf/vhost \
+    && mv openstar ${Install_DIR} \
+    && mv ngx_conf ${Install_DIR} \
+    && rm -rf ${Install_DIR}/conf/nginx.conf \    
+    && mkdir -p ${Install_DIR}/conf/vhost \
     && mkdir -p ${Install_DIR}/conf/ssl \
     && ln -sf ${Install_DIR}/ngx_conf/nginx.conf ${Install_DIR}/conf/nginx.conf \
     && ln -sf ${Install_DIR}/ngx_conf/proxy.conf ${Install_DIR}/conf/proxy.conf \
     && ln -sf ${Install_DIR}/ngx_conf/vhost.conf ${Install_DIR}/conf/vhost.conf \
-	&& ln -sf ${Install_DIR}/ngx_conf/waf.conf ${Install_DIR}/conf/waf.conf \
+    && ln -sf ${Install_DIR}/ngx_conf/waf.conf ${Install_DIR}/conf/waf.conf \
     && chown www:www -R ${Install_DIR} \
     && rm -rf /etc/localtime \
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && apt-get remove --purge --auto-remove -y ca-certificates git build-essential* \
     && rm -rf /var/lib/apt/lists/*	\
-	&& rm -rf ${SRC_DIR}
+    && rm -rf ${SRC_DIR}
 
 
 WORKDIR ${Install_DIR}/conf/
