@@ -5,7 +5,7 @@ ARG RESTY_IMAGE_BASE="debian"
 ARG RESTY_IMAGE_TAG="stretch-slim"
 FROM ${RESTY_IMAGE_BASE}:${RESTY_IMAGE_TAG}
 
-MAINTAINER m1911 2018年8月28日
+MAINTAINER m1911 2018年8月29日
 
 ARG Make_J="1" 
 ARG SRC_DIR="/opt/src"
@@ -17,7 +17,7 @@ ARG Pagespeed_Version="1.13.35.2"
 ARG Install_DIR="/opt/openresty"
 
 RUN apt-get update \
-    && apt-get install --no-install-recommends --no-install-suggests -y ca-certificates wget make gcc g++ libpcre3 libpcre3-dev openssl libssl-dev git bzip2 uuid-dev zlib1g zlib1g.dev \
+    && apt-get install --no-install-recommends --no-install-suggests -y ca-certificates wget make gcc g++ libpcre3 libpcre3-dev git bzip2 uuid-dev zlib1g.dev \
     && groupadd www \
     && useradd -s /sbin/nologin -g www www \
     && mkdir -p ${SRC_DIR} \
@@ -82,7 +82,7 @@ RUN apt-get update \
 	&& ln -s /opt/openresty/nginx/sbin/* /usr/local/sbin/ \
 	&& cd ${SRC_DIR} \
     && git clone https://github.com/m1911/mozhe.git \
-    && cd mozhe \
+    && cd mozhe/openresty \
     && mv openstar ${Install_DIR} \
 	&& mv ngx_conf ${Install_DIR} \
 	&& rm -rf ${Install_DIR}/nginx/conf/nginx.conf \    
@@ -92,12 +92,15 @@ RUN apt-get update \
     && ln -sf ${Install_DIR}/ngx_conf/proxy.conf ${Install_DIR}/nginx/conf/proxy.conf \
     && ln -sf ${Install_DIR}/ngx_conf/vhost.conf ${Install_DIR}/nginx/conf/vhost.conf \
     && ln -sf ${Install_DIR}/ngx_conf/waf.conf ${Install_DIR}/nginx/conf/waf.conf \
-	&& chown www:www -R ${Install_DIR} \
-	&& rm -rf ${SRC_DIR} \
-	&& rm -rf /etc/localtime \
+    && chown www:www -R ${Install_DIR} \
+    && rm -rf /etc/localtime \
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-	&& rm -rf /var/lib/apt/lists/*
+    && apt-get remove --purge --auto-remove -y ca-certificates git g++ \
+    && rm -rf /var/lib/apt/lists/*	\
+	&& rm -rf ${SRC_DIR}
 
+
+WORKDIR ${Install_DIR}/nginx/
 
 EXPOSE 9080 9443
 

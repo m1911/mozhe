@@ -1,0 +1,16 @@
+version: '2'
+services:
+  nginx:
+    image: 'm1911/mozhe'
+    container_name: nginx
+    restart: always #自动重启
+    ports:
+      - '80:9080'
+      - '443:9443'
+    volumes:
+      - /nginx/ngx_conf:/opt/openresty/ngx_conf:ro
+      - /nginx/openstar:/opt/openresty/openstar 
+      - /nginx/vhost:/opt/openresty/nginx/conf/vhost:ro 
+      - /nginx/ssl:/opt/openresty/nginx/conf/ssl
+      - /nginx/wwwlogs:/data/wwwlogs
+      - /nginx/cache:/data/cache
