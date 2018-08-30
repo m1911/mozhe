@@ -4,13 +4,14 @@ services:
     image: 'm1911/mozhe'
     container_name: nginx
     restart: always #自动重启
+    hostname: proxy-nodexx-cdn1
     ports:
       - '80:9080'
       - '443:9443'
     volumes:
-      - /nginx/ngx_conf:/opt/openresty/ngx_conf:ro
-      - /nginx/openstar:/opt/openresty/openstar 
-      - /nginx/vhost:/opt/openresty/nginx/conf/vhost:ro 
-      - /nginx/ssl:/opt/openresty/nginx/conf/ssl
+      - /nginx/ngx_conf:/usr/local/nginx/ngx_conf:ro
+      - /nginx/openstar:/usr/local/nginx/openstar 
+      - /nginx/vhost:/usr/local/nginx/conf/vhost:ro 
+      - /nginx/ssl:/usr/local/nginx/conf/ssl
       - /nginx/wwwlogs:/data/wwwlogs
       - /nginx/cache:/data/cache

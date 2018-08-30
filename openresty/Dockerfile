@@ -7,7 +7,7 @@ FROM ${RESTY_IMAGE_BASE}:${RESTY_IMAGE_TAG}
 
 MAINTAINER m1911 2018年8月29日
 
-ARG Make_J="1" 
+ARG Make_J="2" 
 ARG SRC_DIR="/opt/src"
 ARG Resty_Version="1.13.6.2"
 ARG Ngx_cache_purge="2.5"
@@ -102,7 +102,7 @@ RUN apt-get update \
 
 WORKDIR ${Install_DIR}/nginx/
 
-EXPOSE 9080 9443
+EXPOSE 80 443
 
 CMD ["nginx", "-g", "daemon off;"]
 
