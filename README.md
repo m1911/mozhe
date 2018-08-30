@@ -1,4 +1,5 @@
 注：<br>
+openresty和tengine 配置文件的路径完全不相同切勿混用！！！
 ```
 使用
 groupadd www
