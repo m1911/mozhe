@@ -73,22 +73,22 @@ RUN apt-get update \
     && ./configure \
 	    --user=www \
 	    --group=www \
-		--with-pcre \
-		--with-jemalloc \
+	    --with-pcre \
+	    --with-jemalloc \
 	    --prefix=${Install_DIR} \
 	    --with-http_v2_module \
 	    --with-http_gunzip_module \
 	    --with-http_realip_module \
-		--with-http_concat_module \
+	    --with-http_concat_module \
 	    --with-http_stub_status_module \
 	    --with-http_gzip_static_module \
 	    --with-http_ssl_module \
-        --add-module=${SRC_DIR}/ngx_pagespeed \
-		--with-ld-opt="-Wl,-rpath,/usr/local/lib" \
-		--with-openssl=${SRC_DIR}/libressl-${Libressl_Version} \
+            --add-module=${SRC_DIR}/ngx_pagespeed \
+	    --with-ld-opt="-Wl,-rpath,/usr/local/lib" \
+	    --with-openssl=${SRC_DIR}/libressl-${Libressl_Version} \
 	    --add-module=${SRC_DIR}/ngx_cache_purge-${Ngx_cache_purge} \
-		--add-module=${SRC_DIR}/ngx_devel_kit-${Ngx_devel_kit} \
-		--add-module=${SRC_DIR}/lua-nginx-module-${Nginx_lua_module} \
+	    --add-module=${SRC_DIR}/ngx_devel_kit-${Ngx_devel_kit} \
+	    --add-module=${SRC_DIR}/lua-nginx-module-${Nginx_lua_module} \
     && make && make -j${Make_J} install \
     && chown www:www -R ${Install_DIR} \
     && cd ${Install_DIR} \
