@@ -95,7 +95,7 @@ RUN apt-get update \
     && chown www:www -R ${Install_DIR} \
     && rm -rf /etc/localtime \
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-    && apt-get remove --purge --auto-remove -y ca-certificates git g++ build-essential* \
+    && apt-get remove --purge --auto-remove -y ca-certificates git build-essential* \
     && rm -rf /var/lib/apt/lists/*	\
     && rm -rf ${SRC_DIR}
 
