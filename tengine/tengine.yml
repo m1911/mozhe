@@ -1,13 +1,13 @@
 version: '2'
 services:
   nginx:
-    image: 'm1911/mozhe'
+    image: 'm1911/mozhe:tb'
     container_name: nginx
     restart: always #自动重启
     hostname: proxy-nodexx-cdn1
     ports:
-      - '80:9080'
-      - '443:9443'
+      - '80:80'
+      - '443:443'
     volumes:
       - /nginx/ngx_conf:/usr/local/nginx/ngx_conf:ro
       - /nginx/openstar:/usr/local/nginx/openstar 

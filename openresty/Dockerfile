@@ -17,11 +17,11 @@ ARG Pagespeed_Version="1.13.35.2"
 ARG Install_DIR="/opt/openresty"
 
 RUN apt-get update \
-    && apt-get install --no-install-recommends --no-install-suggests -y ca-certificates wget make gcc g++ libpcre3 libpcre3-dev git bzip2 uuid-dev zlib1g.dev \
+    && apt-get install --no-install-recommends --no-install-suggests -y ca-certificates wget build-essential unzip libpcre3 libpcre3-dev git bzip2 uuid-dev zlib1g.dev \
     && groupadd www \
     && useradd -s /sbin/nologin -g www www \
     && mkdir -p ${SRC_DIR} \
-	&& mkdir -p /data/cache \
+    && mkdir -p /data/cache \
     && mkdir -p /data/wwwlogs \
     && mkdir -p /data/ngx_pagespeed \
     && chown www.www -R  /data/ngx_pagespeed /data/wwwlogs /data/cache \
@@ -35,23 +35,23 @@ RUN apt-get update \
     && echo '/usr/local/lib' > /etc/ld.so.conf.d/local.conf \
     && ldconfig \
     && cd ../ \
-	&& wget -c https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-${Libressl_Version}.tar.gz \
+    && wget -c https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-${Libressl_Version}.tar.gz \
     && tar zxf libressl-${Libressl_Version}.tar.gz \
     && cd ${SRC_DIR} \
     && wget -c https://github.com/apache/incubator-pagespeed-ngx/archive/v${Pagespeed_Version}-stable.tar.gz \
     && tar zxf v${Pagespeed_Version}-stable.tar.gz \ 
     && mv incubator-pagespeed-ngx-${Pagespeed_Version}-stable/ ngx_pagespeed \
-	&& cd ngx_pagespeed \
-	&& wget -c https://dl.google.com/dl/page-speed/psol/${Pagespeed_Version}-x64.tar.gz \
-	&& tar zxf ${Pagespeed_Version}-x64.tar.gz \
-	&& cd ../ \
-	&& git clone https://github.com/google/ngx_brotli.git \
+    && cd ngx_pagespeed \
+    && wget -c https://dl.google.com/dl/page-speed/psol/${Pagespeed_Version}-x64.tar.gz \
+    && tar zxf ${Pagespeed_Version}-x64.tar.gz \
+    && cd ../ \
+    && git clone https://github.com/google/ngx_brotli.git \
     && cd ngx_brotli \
-	&& git submodule update --init \
-	&& cd ../ \
+    && git submodule update --init \
+    && cd ../ \
     && wget -c https://github.com/nginx-modules/ngx_cache_purge/archive/${Ngx_cache_purge}.tar.gz \
     && tar zxf ${Ngx_cache_purge}.tar.gz \
-	&& wget -c https://openresty.org/download/openresty-${Resty_Version}.tar.gz \
+    && wget -c https://openresty.org/download/openresty-${Resty_Version}.tar.gz \
     && tar zxf openresty-${Resty_Version}.tar.gz \
     && cd openresty-${Resty_Version} \
     && sed -i  '/NGINX_VER/{s/openresty/Mozhe/g}'  ./bundle/nginx-1.13.6/src/core/nginx.h \
@@ -73,20 +73,20 @@ RUN apt-get update \
 	    --with-openssl=${SRC_DIR}/libressl-${Libressl_Version} \
 	    --add-module=${SRC_DIR}/ngx_cache_purge-${Ngx_cache_purge} \
     && make \
-	&& make -j${Make_J} install \
+    && make -j${Make_J} install \
     && chown www:www -R ${Install_DIR} \
     && cd ${Install_DIR} \
-	&& chown www:www nginx/sbin/nginx \
+    && chown www:www nginx/sbin/nginx \
     && chmod 750 nginx/sbin/nginx \
-	&& chmod u+s nginx/sbin/nginx \
-	&& ln -s /opt/openresty/nginx/sbin/* /usr/local/sbin/ \
-	&& cd ${SRC_DIR} \
+    && chmod u+s nginx/sbin/nginx \
+    && ln -s /opt/openresty/nginx/sbin/* /usr/local/sbin/ \
+    && cd ${SRC_DIR} \
     && git clone https://github.com/m1911/mozhe.git \
     && cd mozhe/openresty \
     && mv openstar ${Install_DIR} \
-	&& mv ngx_conf ${Install_DIR} \
-	&& rm -rf ${Install_DIR}/nginx/conf/nginx.conf \    
-	&& mkdir -p ${Install_DIR}/nginx/conf/vhost \
+    && mv ngx_conf ${Install_DIR} \
+    && rm -rf ${Install_DIR}/nginx/conf/nginx.conf \    
+    && mkdir -p ${Install_DIR}/nginx/conf/vhost \
     && mkdir -p ${Install_DIR}/nginx/conf/ssl \
     && ln -sf ${Install_DIR}/ngx_conf/nginx.conf ${Install_DIR}/nginx/conf/nginx.conf \
     && ln -sf ${Install_DIR}/ngx_conf/proxy.conf ${Install_DIR}/nginx/conf/proxy.conf \
@@ -95,9 +95,9 @@ RUN apt-get update \
     && chown www:www -R ${Install_DIR} \
     && rm -rf /etc/localtime \
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-    && apt-get remove --purge --auto-remove -y ca-certificates git g++ \
+    && apt-get remove --purge --auto-remove -y ca-certificates git g++ build-essential* \
     && rm -rf /var/lib/apt/lists/*	\
-	&& rm -rf ${SRC_DIR}
+    && rm -rf ${SRC_DIR}
 
 
 WORKDIR ${Install_DIR}/nginx/
