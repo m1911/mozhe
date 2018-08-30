@@ -51,6 +51,7 @@ RUN apt-get update \
     && mv incubator-pagespeed-ngx-${Pagespeed_Version}-stable/ ngx_pagespeed \
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	&& cd ngx_pagespeed \
 	&& wget -c https://dl.google.com/dl/page-speed/psol/${Pagespeed_Version}-x64.tar.gz \
 	&& tar zxf ${Pagespeed_Version}-x64.tar.gz \
@@ -88,6 +89,14 @@ RUN apt-get update \
     && wget -c https://github.com/nginx-modules/ngx_cache_purge/archive/${Ngx_cache_purge}.tar.gz \
     && tar zxf ${Ngx_cache_purge}.tar.gz \
 >>>>>>> 888e3e2790642b71c52dbfdba5869d2d57248ee9
+=======
+    && cd ngx_pagespeed \
+    && wget -c https://dl.google.com/dl/page-speed/psol/${Pagespeed_Version}-x64.tar.gz \
+    && tar zxf ${Pagespeed_Version}-x64.tar.gz \
+    && cd ../ \
+    && wget -c https://github.com/nginx-modules/ngx_cache_purge/archive/${Ngx_cache_purge}.tar.gz \
+    && tar zxf ${Ngx_cache_purge}.tar.gz \
+>>>>>>> 888e3e2790642b71c52dbfdba5869d2d57248ee9
     && wget -c http://luajit.org/download/LuaJIT-2.1.0-beta3.tar.gz \
     && tar zxf LuaJIT-2.1.0-beta3.tar.gz \
     && cd LuaJIT-2.1.0-beta3 \
@@ -99,6 +108,9 @@ RUN apt-get update \
     && tar zxf v${Nginx_lua_module}.tar.gz \
     && wget -c https://github.com/alibaba/tengine/archive/tengine-${Tengine_Version}.tar.gz \
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 888e3e2790642b71c52dbfdba5869d2d57248ee9
+=======
 >>>>>>> 888e3e2790642b71c52dbfdba5869d2d57248ee9
 =======
 >>>>>>> 888e3e2790642b71c52dbfdba5869d2d57248ee9
@@ -108,6 +120,10 @@ RUN apt-get update \
     && export LUAJIT_INC=/usr/local/include/luajit-2.1 \
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    && sed -i  '/define TENGINE/{s/Tengine/Mozhe/g}'  ./src/core/nginx.h \
+>>>>>>> 888e3e2790642b71c52dbfdba5869d2d57248ee9
 =======
     && sed -i  '/define TENGINE/{s/Tengine/Mozhe/g}'  ./src/core/nginx.h \
 >>>>>>> 888e3e2790642b71c52dbfdba5869d2d57248ee9
@@ -139,6 +155,9 @@ RUN apt-get update \
     && make \
     && make -j${Make_J} install \
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 888e3e2790642b71c52dbfdba5869d2d57248ee9
+=======
 >>>>>>> 888e3e2790642b71c52dbfdba5869d2d57248ee9
 =======
 >>>>>>> 888e3e2790642b71c52dbfdba5869d2d57248ee9
