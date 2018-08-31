@@ -83,7 +83,7 @@ RUN apt-get update \
 	    --with-http_stub_status_module \
 	    --with-http_gzip_static_module \
 	    --with-http_ssl_module \
-            --add-module=${SRC_DIR}/ngx_pagespeed \
+        --add-module=${SRC_DIR}/ngx_pagespeed \
 	    --with-ld-opt="-Wl,-rpath,/usr/local/lib" \
 	    --with-openssl=${SRC_DIR}/libressl-${Libressl_Version} \
 	    --add-module=${SRC_DIR}/ngx_cache_purge-${Ngx_cache_purge} \
