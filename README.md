@@ -17,7 +17,7 @@ useradd -M -s /sbin/nologin -g www www
 
 # 启动命令
 使用docker-compose 来启动目录下面的openresty.yml 配置文件
-<br>使用docker-compose -f nginx.yml 来指定配置文件进行启动
+<br>使用docker-compose -f openresty.yml 来指定配置文件进行启动
 <br>下面是openresty.yml配置文件内容
 ```
 version: '2'
