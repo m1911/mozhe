@@ -78,7 +78,6 @@ RUN apt-get update \
 	    --user=www \
 	    --group=www \
 		--prefix=${Install_DIR} \
-	    --with-pcre \
 	    --with-jemalloc \        	    
 	    --with-http_v2_module \
 		--with-http_ssl_module \
