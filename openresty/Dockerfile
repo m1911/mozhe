@@ -9,12 +9,12 @@ MAINTAINER m1911 2018年9月1日
 
 ARG Make_J="2" 
 ARG SRC_DIR="/opt/src"
-ARG Resty_Version="1.13.6.2"
-ARG Ngx_cache_purge="2.5"
-ARG Libressl_Version="2.7.4"
 ARG Jemalloc_Version="5.1.0"
-ARG Pcre_Version="8.42"
+ARG Libressl_Version="2.7.4"
+ARG Ngx_cache_purge="2.5"
 ARG Pagespeed_Version="1.13.35.2"
+ARG Pcre_Version="8.42"
+ARG Resty_Version="1.13.6.2"
 ARG Install_DIR="/usr/local/openresty"
 
 RUN apt-get update \
