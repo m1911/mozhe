@@ -1,11 +1,11 @@
 # Dockerfile - Debian 9 Stretch - DEB version
-# https://github.com/openresty/docker-openresty
+# https://github.com/openresty/openresty
 
 ARG RESTY_IMAGE_BASE="debian"
 ARG RESTY_IMAGE_TAG="stretch-slim"
 FROM ${RESTY_IMAGE_BASE}:${RESTY_IMAGE_TAG}
 
-MAINTAINER m1911 2018年8月29日
+MAINTAINER m1911 2018年9月1日
 
 ARG Make_J="2" 
 ARG SRC_DIR="/opt/src"
@@ -13,11 +13,12 @@ ARG Resty_Version="1.13.6.2"
 ARG Ngx_cache_purge="2.5"
 ARG Libressl_Version="2.7.4"
 ARG Jemalloc_Version="5.1.0"
+ARG Pcre_Version="8.42"
 ARG Pagespeed_Version="1.13.35.2"
-ARG Install_DIR="/opt/openresty"
+ARG Install_DIR="/usr/local/openresty"
 
 RUN apt-get update \
-    && apt-get install --no-install-recommends --no-install-suggests -y ca-certificates wget build-essential unzip libpcre3 libpcre3-dev git bzip2 uuid-dev zlib1g.dev \
+    && apt-get install --no-install-recommends --no-install-suggests -y ca-certificates wget build-essential unzip git bzip2 uuid-dev zlib1g.dev \
     && groupadd www \
     && useradd -s /sbin/nologin -g www www \
     && mkdir -p ${SRC_DIR} \
@@ -34,7 +35,7 @@ RUN apt-get update \
     && make && make install \
     && echo '/usr/local/lib' > /etc/ld.so.conf.d/local.conf \
     && ldconfig \
-    && cd ../ \
+    && cd .. \
     && wget -c https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-${Libressl_Version}.tar.gz \
     && tar zxf libressl-${Libressl_Version}.tar.gz \
     && cd ${SRC_DIR} \
@@ -44,13 +45,15 @@ RUN apt-get update \
     && cd ngx_pagespeed \
     && wget -c https://dl.google.com/dl/page-speed/psol/${Pagespeed_Version}-x64.tar.gz \
     && tar zxf ${Pagespeed_Version}-x64.tar.gz \
-    && cd ../ \
+    && cd .. \
     && git clone https://github.com/google/ngx_brotli.git \
     && cd ngx_brotli \
     && git submodule update --init \
-    && cd ../ \
+    && cd .. \
     && wget -c https://github.com/nginx-modules/ngx_cache_purge/archive/${Ngx_cache_purge}.tar.gz \
     && tar zxf ${Ngx_cache_purge}.tar.gz \
+	&& wget -c https://ftp.pcre.org/pub/pcre/pcre-${Pcre_Version}.tar.gz \
+	&& tar zxf pcre-${Pcre_Version}.tar.gz \
     && wget -c https://openresty.org/download/openresty-${Resty_Version}.tar.gz \
     && tar zxf openresty-${Resty_Version}.tar.gz \
     && cd openresty-${Resty_Version} \
@@ -61,13 +64,16 @@ RUN apt-get update \
 	    --user=www \
 	    --group=www \
 	    --prefix=${Install_DIR} \
+		--with-luajit \
 	    --with-http_v2_module \
 	    --with-http_gunzip_module \
 	    --with-http_realip_module \
 	    --with-http_stub_status_module \
 	    --with-http_gzip_static_module \
-	    --with-luajit --with-http_ssl_module \	
-	    --with-pcre --with-ld-opt="-ljemalloc" \
+		--with-http_ssl_module \	
+	    --with-ld-opt="-ljemalloc" \
+		--with-pcre=${SRC_DIR}/pcre-${Pcre_Version} \
+		--with-pcre-jit \
 	    --add-module=${SRC_DIR}/ngx_brotli \
 	    --add-module=${SRC_DIR}/ngx_pagespeed \
 	    --with-openssl=${SRC_DIR}/libressl-${Libressl_Version} \
@@ -79,7 +85,7 @@ RUN apt-get update \
     && chown www:www nginx/sbin/nginx \
     && chmod 750 nginx/sbin/nginx \
     && chmod u+s nginx/sbin/nginx \
-    && ln -s /opt/openresty/nginx/sbin/* /usr/local/sbin/ \
+    && ln -s ${Install_DIR}/nginx/sbin/* /usr/local/sbin/ \
     && cd ${SRC_DIR} \
     && git clone https://github.com/m1911/mozhe.git \
     && cd mozhe/openresty \
