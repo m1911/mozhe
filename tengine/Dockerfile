@@ -20,7 +20,6 @@ ARG Nginx_lua_module="0.10.13"
 ARG Tengine_Version="2.2.2"
 ARG Install_DIR="/usr/local/nginx"
 
-
 RUN apt-get update \
     && apt-get install --no-install-recommends --no-install-suggests -y ca-certificates wget build-essential unzip git bzip2 uuid-dev zlib1g.dev \
     && groupadd www \
@@ -42,7 +41,6 @@ RUN apt-get update \
     && cd .. \
     && wget -c https://www.openssl.org/source/openssl-${Openssl_Version}.tar.gz \
     && tar zxf openssl-${Openssl_Version}.tar.gz \
-    && cd ${SRC_DIR} \
     && wget -c https://github.com/apache/incubator-pagespeed-ngx/archive/v${Pagespeed_Version}-stable.tar.gz \
     && tar zxf v${Pagespeed_Version}-stable.tar.gz \ 
     && mv incubator-pagespeed-ngx-${Pagespeed_Version}-stable/ ngx_pagespeed \
@@ -121,7 +119,6 @@ RUN apt-get update \
     && apt-get remove --purge --auto-remove -y ca-certificates git build-essential* \
     && rm -rf /var/lib/apt/lists/*	\
     && rm -rf ${SRC_DIR}
-
 
 WORKDIR ${Install_DIR}/conf/
 
