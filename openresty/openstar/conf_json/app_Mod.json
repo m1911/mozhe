@@ -2,27 +2,27 @@
     {
         "state": "on",
         "action": ["deny"],
-        "hostname": ["*",""],
+        "hostname": ["101.200.122.200",""],
         "uri": ["^/([\\w]{4}\\.html|deny\\.do|你好\\.html)$","jio"]
     },
     {
         "state": "on",
         "action": ["rehtml"],
         "rehtml": "<html>hi~!</html>",
-        "hostname": ["*",""],
+        "hostname": ["101.200.122.200",""],
         "uri": ["/rehtml",""]
     },
     {
         "state": "on",
         "action": ["refile"],
         "refile": "2.txt",
-        "hostname": ["*",""],
+        "hostname": ["101.200.122.200",""],
         "uri": ["/refile",""]
     },
     {
         "state": "on",
         "action": ["deny"],
-        "hostname": [["*","127.0.0.1"],"list"],
+        "hostname": [["101.200.122.200","127.0.0.1"],"list"],
         "uri": ["/api/.*","jio"],
         "app_ext":[
         ["ip",[["106.37.236.170","1.1.1.1"],"list",true]]

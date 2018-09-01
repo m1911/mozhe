@@ -17,12 +17,6 @@
         "args_data": ["\\$\\{","jio"],
         "action": "deny"
     },
-	{
-        "state": "on",
-        "hostname": ["*",""],
-        "args_data": ["and","jio"],
-        "action": "deny"
-    },
     {
         "state": "on",
         "hostname": ["*",""],

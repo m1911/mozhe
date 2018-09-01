@@ -1,6 +1,6 @@
 {
 
-	"redis_Mod" : {"state":"off","ip":"127.0.0.1","Port" : 6379,"Password":""},
+	"redis_Mod" : {"state":"on","ip":"127.0.0.1","Port" : 6379,"Password":""},
 
 	"autoSync":{"state":"off","timeAt":5},
 
@@ -28,13 +28,19 @@
 
 	"cookie_Mod" : "on",
 
-	"args_Mod" : "on",
+	"args_Mod" : {
+					"state":"on",
+					"HPP_state":"on"
+				},
 
-	"post_Mod" : "on",
+	"post_Mod" : {
+					"state":"on",
+					"HPP_state":"on"
+				},
 
 	"post_form":10240,
 
-	"network_Mod" : "off",
+	"network_Mod" : "on",
 
 	"replace_Mod" : "off",
 

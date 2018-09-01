@@ -9,7 +9,7 @@ local string_gsub = string.gsub
 local ipairs = ipairs
 
 --- base.json 文件绝对路径 [需要自行根据自己服务器情况设置]
-local base_json = "/opt/openresty/openstar/conf_json/base.json"
+local base_json = "/usr/local/openresty/openstar/conf_json/base.json"
 
 --- 将全局配置参数存放到共享内存（*_dict）中
 local config_dict = ngx_shared.config_dict
@@ -59,7 +59,7 @@ end
 function loadConfig()
 
     config.base = loadjson(base_json)
-    local _basedir = config.base.jsonPath or "/opt/openresty/openstar/conf_json/"
+    local _basedir = config.base.jsonPath or "/usr/local/openresty/openstar/conf_json/"
 
     -- STEP 0
     config.realIpFrom_Mod = loadjson(_basedir.."realIpFrom_Mod.json")

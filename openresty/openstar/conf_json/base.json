@@ -1,3 +1,4 @@
+
 {
 
 	"redis_Mod" : {"state":"off","ip":"127.0.0.1","Port" : 6379,"Password":""},
@@ -28,9 +29,15 @@
 
 	"cookie_Mod" : "on",
 
-	"args_Mod" : "on",
+	"args_Mod" : {
+					"state":"on",
+					"HPP_state":"on"
+				},
 
-	"post_Mod" : "on",
+	"post_Mod" : {
+					"state":"on",
+					"HPP_state":"on"
+				},
 
 	"post_form":10240,
 
@@ -40,13 +47,13 @@
 
 	"debug_Mod" : false,
 
-	"baseDir" : "/opt/openresty/openstar/",
+	"baseDir" : "/usr/local/openresty/openstar/",
 
-	"logPath" : "/opt/openresty/openstar/logs/",
+	"logPath" : "/usr/local/openresty/openstar/logs/",
 
-	"jsonPath" : "/opt/openresty/openstar/conf_json/",
+	"jsonPath" : "/usr/local/openresty/openstar/conf_json/",
 
-	"htmlPath" : "/opt/openresty/openstar/index/",
+	"htmlPath" : "/usr/local/openresty/openstar/index/",
 
 	"denyMsg" : {"state":"on","msg":"mozhe security deny"},
 
