@@ -1,4 +1,5 @@
 # Dockerfile - Debian 9 Stretch - DEB version
+# https://github.com/alibaba/tengine
 
 ARG RESTY_IMAGE_BASE="debian"
 ARG RESTY_IMAGE_TAG="stretch-slim"
@@ -9,9 +10,10 @@ MAINTAINER m1911 2018年8月29日
 ARG Make_J="2" 
 ARG SRC_DIR="/opt/src"
 ARG Jemalloc_Version="5.1.0"
-ARG Libressl_Version="2.7.4"
+ARG Openssl_Version="1.1.0i"
 ARG Pagespeed_Version="1.13.35.2"
 ARG Ngx_cache_purge="2.5"
+ARG Pcre_Version="8.42"
 ARG Lua_cjson="2.1.0.6"
 ARG Ngx_devel_kit="0.3.1rc1"
 ARG Nginx_lua_module="0.10.13"
@@ -20,7 +22,7 @@ ARG Install_DIR="/usr/local/nginx"
 
 
 RUN apt-get update \
-    && apt-get install --no-install-recommends --no-install-suggests -y ca-certificates wget build-essential unzip libpcre3 libpcre3-dev git bzip2 uuid-dev zlib1g.dev \
+    && apt-get install --no-install-recommends --no-install-suggests -y ca-certificates wget build-essential unzip git bzip2 uuid-dev zlib1g.dev \
     && groupadd www \
     && useradd -s /sbin/nologin -g www www \
     && mkdir -p ${SRC_DIR} \
@@ -38,8 +40,8 @@ RUN apt-get update \
     && echo '/usr/local/lib' > /etc/ld.so.conf.d/local.conf \
     && ldconfig \
     && cd .. \
-    && wget -c https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-${Libressl_Version}.tar.gz \
-    && tar zxf libressl-${Libressl_Version}.tar.gz \
+    && wget -c https://www.openssl.org/source/openssl-${Openssl_Version}.tar.gz \
+    && tar zxf openssl-${Openssl_Version}.tar.gz \
     && cd ${SRC_DIR} \
     && wget -c https://github.com/apache/incubator-pagespeed-ngx/archive/v${Pagespeed_Version}-stable.tar.gz \
     && tar zxf v${Pagespeed_Version}-stable.tar.gz \ 
@@ -50,6 +52,8 @@ RUN apt-get update \
     && cd .. \
     && wget -c https://github.com/nginx-modules/ngx_cache_purge/archive/${Ngx_cache_purge}.tar.gz \
     && tar zxf ${Ngx_cache_purge}.tar.gz \
+	&& wget -c https://ftp.pcre.org/pub/pcre/pcre-${Pcre_Version}.tar.gz \
+	&& tar zxf pcre-${Pcre_Version}.tar.gz \
     && wget -c http://luajit.org/download/LuaJIT-2.1.0-beta3.tar.gz \
     && tar zxf LuaJIT-2.1.0-beta3.tar.gz \
     && cd LuaJIT-2.1.0-beta3 \
@@ -73,19 +77,22 @@ RUN apt-get update \
     && ./configure \
 	    --user=www \
 	    --group=www \
+		--prefix=${Install_DIR} \
 	    --with-pcre \
-	    --with-jemalloc \
-	    --prefix=${Install_DIR} \
+	    --with-jemalloc \        	    
 	    --with-http_v2_module \
+		--with-http_ssl_module \
 	    --with-http_gunzip_module \
 	    --with-http_realip_module \
-	    --with-http_concat_module \
+		--with-http_concat_module \
 	    --with-http_stub_status_module \
-	    --with-http_gzip_static_module \
-	    --with-http_ssl_module \
-        --add-module=${SRC_DIR}/ngx_pagespeed \
+	    --with-http_gzip_static_module \	    		       
 	    --with-ld-opt="-Wl,-rpath,/usr/local/lib" \
-	    --with-openssl=${SRC_DIR}/libressl-${Libressl_Version} \
+		--with-pcre=${SRC_DIR}/pcre-${Pcre_Version} \
+		--with-pcre-jit \
+		--with-http_upstream_session_sticky_module=shared \
+	    --with-openssl=${SRC_DIR}/openssl-${Openssl_Version} \
+		--add-module=${SRC_DIR}/ngx_pagespeed \
 	    --add-module=${SRC_DIR}/ngx_cache_purge-${Ngx_cache_purge} \
 	    --add-module=${SRC_DIR}/ngx_devel_kit-${Ngx_devel_kit} \
 	    --add-module=${SRC_DIR}/lua-nginx-module-${Nginx_lua_module} \
