@@ -1,7 +1,7 @@
 version: '2'
 services:
   nginx:
-    image: 'm1911/mozhe:tb'
+    image: 'm1911/mozhe:tengine'
     container_name: nginx
     restart: always #自动重启
     hostname: proxy-nodexx-cdn1

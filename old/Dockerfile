@@ -17,10 +17,8 @@ ARG Pcre_Version="8.42"
 ARG Lua_cjson="2.1.0.6"
 ARG Ngx_devel_kit="0.3.1rc1"
 ARG Nginx_lua_module="0.10.13"
-ARG Nginx_module_vts="0.1.18"
 ARG Tengine_Version="2.2.2"
 ARG Install_DIR="/usr/local/nginx"
-
 
 RUN apt-get update \
     && apt-get install --no-install-recommends --no-install-suggests -y ca-certificates wget build-essential unzip git bzip2 uuid-dev zlib1g.dev \
@@ -43,9 +41,6 @@ RUN apt-get update \
     && cd .. \
     && wget -c https://www.openssl.org/source/openssl-${Openssl_Version}.tar.gz \
     && tar zxf openssl-${Openssl_Version}.tar.gz \
-	&& cd openssl-${Openssl_Version} \
-	&& make && make install \
-    && cd .. \
     && wget -c https://github.com/apache/incubator-pagespeed-ngx/archive/v${Pagespeed_Version}-stable.tar.gz \
     && tar zxf v${Pagespeed_Version}-stable.tar.gz \ 
     && mv incubator-pagespeed-ngx-${Pagespeed_Version}-stable/ ngx_pagespeed \
@@ -72,8 +67,6 @@ RUN apt-get update \
     && tar zxf v${Ngx_devel_kit}.tar.gz \
     && wget -c https://github.com/openresty/lua-nginx-module/archive/v${Nginx_lua_module}.tar.gz \
     && tar zxf v${Nginx_lua_module}.tar.gz \
-	&& wget -c https://github.com/vozlt/nginx-module-vts/archive/v${Nginx_module_vts}.tar.gz \
-	&& tar zxf v${Nginx_module_vts}.tar.gz \
     && wget -c https://github.com/alibaba/tengine/archive/tengine-${Tengine_Version}.tar.gz \
     && tar zxf tengine-${Tengine_Version}.tar.gz \
     && cd tengine-tengine-${Tengine_Version} \
@@ -83,27 +76,23 @@ RUN apt-get update \
 	    --user=www \
 	    --group=www \
 		--prefix=${Install_DIR} \
-	    --with-jemalloc \ 
-        --with-openssl-async \		
-	    --with-http_v2_module \		
+	    --with-jemalloc \        	    
+	    --with-http_v2_module \
 		--with-http_ssl_module \
 	    --with-http_gunzip_module \
 	    --with-http_realip_module \
-		--with-http_concat_module \		
+		--with-http_concat_module \
 	    --with-http_stub_status_module \
-	    --with-http_gzip_static_module \		
+	    --with-http_gzip_static_module \	    		       
 	    --with-ld-opt="-Wl,-rpath,/usr/local/lib" \
-		--with-ld-opt="-Wl,-rpath=/usr/local/ssl/lib -L/usr/local/ssl/lib" \
-		--with-cc-opt="-DNGX_SECURE_MEM -I/usr/local/ssl/include -Wno-error=deprecated-declarations" \
 		--with-pcre=${SRC_DIR}/pcre-${Pcre_Version} \
 		--with-pcre-jit \
 		--with-http_upstream_session_sticky_module=shared \
 	    --with-openssl=${SRC_DIR}/openssl-${Openssl_Version} \
-		--add-module=${SRC_DIR}/ngx_pagespeed \		
+		--add-module=${SRC_DIR}/ngx_pagespeed \
 	    --add-module=${SRC_DIR}/ngx_cache_purge-${Ngx_cache_purge} \
 	    --add-module=${SRC_DIR}/ngx_devel_kit-${Ngx_devel_kit} \
 	    --add-module=${SRC_DIR}/lua-nginx-module-${Nginx_lua_module} \
-		--add-module=${SRC_DIR}/nginx-module-vts-${Nginx_module_vts} \
     && make && make -j${Make_J} install \
     && chown www:www -R ${Install_DIR} \
     && cd ${Install_DIR} \
@@ -115,8 +104,8 @@ RUN apt-get update \
     && cd ${SRC_DIR} \
     && git clone https://github.com/m1911/mozhe.git \
     && cd mozhe/tengine \
-    && cp -Rf waf ${Install_DIR}/conf \
-    && cp -Rf ngx_conf ${Install_DIR} \
+    && mv openstar ${Install_DIR} \
+    && mv ngx_conf ${Install_DIR} \
     && rm -rf ${Install_DIR}/conf/nginx.conf \    
     && mkdir -p ${Install_DIR}/conf/vhost \
     && mkdir -p ${Install_DIR}/conf/ssl \
@@ -130,7 +119,6 @@ RUN apt-get update \
     && apt-get remove --purge --auto-remove -y ca-certificates git build-essential* \
     && rm -rf /var/lib/apt/lists/*	\
     && rm -rf ${SRC_DIR}
-
 
 WORKDIR ${Install_DIR}/conf/
 
