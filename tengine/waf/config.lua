@@ -21,7 +21,7 @@ config_user_agent_check = "on"
 --enable/disable cookie deny filtering
 config_cookie_check = "on"
 --enable/disable cc filtering
-config_cc_check = "on"
+config_cc_check = "off"
 --cc rate the xxx of xxx seconds
 config_cc_rate = "120/120"
 --enable/disable post filtering
