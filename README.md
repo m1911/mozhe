@@ -36,5 +36,6 @@ services:
       - /nginx/ssl:/opt/openresty/nginx/conf/ssl 
       - /nginx/wwwlogs:/data/wwwlogs
 ```
-# 鸣谢
-@
+# WAF鸣谢
+[@jx-sec](https://github.com/jx-sec/jxwaf)  
+[@lj2007331](https://github.com/lj2007331/ngx_lua_waf)
