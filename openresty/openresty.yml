@@ -1,17 +1,17 @@
 version: '2'
 services:
   nginx:
-    image: 'm1911/mozhe'
+    image: 'mozhe'
     container_name: nginx
-    restart: always #自动重启
-    hostname: proxy-nodexx-cdn1
+    restart: always
+    hostname: proxy-xian-cdn
     ports:
       - '80:80'
       - '443:443'
     volumes:
-      - /nginx/ngx_conf:/usr/local/openresty/ngx_conf:ro
-      - /nginx/openstar:/usr/local/openresty/openstar 
-      - /nginx/vhost:/usr/local/openresty/nginx/conf/vhost:ro 
-      - /nginx/ssl:/usr/local/openresty/nginx/conf/ssl
+      - /nginx/ngx_conf:/usr/local/mozhe/ngx_conf:ro
+      - /nginx/ssl:/usr/local/mozhe/nginx/conf/ssl
+      - /nginx/vhost:/usr/local/mozhe/nginx/conf/vhost:ro 
+      - /nginx/jxwaf_config.json:/usr/local/mozhe/nginx/conf/jxwaf/jxwaf_config.json:ro
       - /nginx/wwwlogs:/data/wwwlogs
       - /nginx/cache:/data/cache
