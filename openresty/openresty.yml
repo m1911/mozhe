@@ -1,7 +1,7 @@
 version: '2'
 services:
   nginx:
-    image: 'm1911/mozhe'
+    image: 'test'
     container_name: nginx
     restart: always
     hostname: proxy-xian-cdn
