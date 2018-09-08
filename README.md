@@ -1,5 +1,5 @@
-# 注：<br>
 ## 已经删除ngx_cache_purge模块，使用shell脚本来进行删除缓存，脚本是百度找的。
+注：<br>
 openresty和tengine 配置文件的路径完全不相同切勿混用！！！<br>
 Openresty使用的是：Libressl<br>
 Tengine使用的是：Openssl
