@@ -8,7 +8,7 @@ Tengine使用的是：Openssl
 groupadd www
 useradd -M -s /sbin/nologin -g www www
 ```
-创建www用户和组，不创建的话映射出来的缓存目录会因为权限问题无法删除缓存
+创建www用户和组，不设置缓存目录权限直接挂在会导致nginx无法写入缓存
 
 # Docker启动说明
 
