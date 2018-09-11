@@ -90,7 +90,7 @@ RUN apt-get update \
 	&& cd lua-zlib-1.2 && cmake -DLUA_INCLUDE_DIR=${Install_DIR}/luajit/include/luajit-2.1 && make \
 	&& cp zlib.so ${Install_DIR}/lualib/ \
     && cd ../../openresty \
-    && mv ngx_conf ${Install_DIR} \
+    && cp -Rf ngx_conf ${Install_DIR} \
     && rm -rf ${Install_DIR}/nginx/conf/nginx.conf \    
     && mkdir -p ${Install_DIR}/nginx/conf/vhost \
     && mkdir -p ${Install_DIR}/nginx/conf/ssl \
