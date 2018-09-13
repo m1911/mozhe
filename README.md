@@ -2,7 +2,7 @@
 注：<br>
 openresty和tengine 配置文件的路径完全不相同切勿混用！！！<br>
 Openresty使用的是：Libressl<br>
-Tengine使用的是：Openssl
+Tengine使用的是：Openssl （暂时不用了）
 ```
 使用
 groupadd www
