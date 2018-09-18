@@ -7,7 +7,11 @@ groupadd www
 useradd -M -s /sbin/nologin -g www www
 ```
 创建www用户和组，不设置缓存目录权限直接挂在会导致nginx无法写入缓存<br>
-安装Docker之前请用up_kernel.sh把内核升级到4.x版本保证docker的稳定性
+安装Docker之前请用up_kernel.sh把内核升级到4.x版本保证docker的稳定性<br>
+## 卸载旧内核命令
+```
+yum autoremove kernel-3.10.0-* -y #直接卸载3.10.x的旧内核
+```
 
 # Docker和docker-compose安装
 
@@ -16,6 +20,7 @@ curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
 wget -c https://github.com/docker/compose/releases/download/1.22.0/docker-compose-Linux-x86_64 -O /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 systemctl enable docker
+systemctl start docker
 ``` 
 
 # Docker启动说明
