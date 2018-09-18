@@ -1,10 +1,6 @@
 ## 已经删除ngx_cache_purge模块，使用shell脚本来进行删除缓存，脚本是百度找的。
 注：<br>
 Openresty使用的是：Libressl<br>
-<<<<<<< HEAD
-=======
-Tengine使用的是：Openssl （暂时不用了）
->>>>>>> c8d0a17c9c88cdac3b8c862e46db70193974e487
 ```
 使用
 groupadd www
