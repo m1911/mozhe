@@ -7,7 +7,7 @@ groupadd www
 useradd -M -s /sbin/nologin -g www www
 ```
 创建www用户和组，不设置缓存目录权限直接挂在会导致nginx无法写入缓存<br>
-安装Docker之前请用up_kernel.sh把内核升级到4.x版本保证docker的稳定性<br>
+## 安装Docker之前请用up_kernel.sh把内核升级到4.x版本保证docker的稳定性
 ## 卸载旧内核命令
 ```
 yum autoremove kernel-3.10.0-* -y #直接卸载3.10.x的旧内核
