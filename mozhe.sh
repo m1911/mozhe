@@ -209,14 +209,6 @@ Install_nginx()
 		systemctl start nginx
 		systemctl status nginx
 	fi
-	Chk_firewall
-	end_time=$(date +%s)
-	cost_time=$((end_time - begin_time))
-	echo "此脚本一共耗时${cost_time}秒"
-}
-#添加防火墙端口
-Chk_firewall()
-{
 	if [ -f /usr/bin/firewall-cmd ];then
 		/usr/bin/firewall-cmd --zone=public --add-port=80/tcp --permanent
 		/usr/bin/firewall-cmd --zone=public --add-port=443/tcp --permanent
@@ -224,8 +216,10 @@ Chk_firewall()
 	else
 		echo "请手动检查防火墙配置！"
 	fi
+	end_time=$(date +%s)
+	cost_time=$((end_time - begin_time))
+	echo "此脚本一共耗时${cost_time}秒"
 }
-
 #添加SSL虚拟机
 Add_ssl_host()
 {
@@ -524,9 +518,9 @@ mariadb()
 	
 	yum install MariaDB-server MariaDB-client galera -y
 	
-	mkdir -p ${DATA_DIR}
-	cp -Rf /var/lib/mysql/* ${DATA_DIR}/
-	chown -R mysql:mysql ${DATA_DIR}
+	# mkdir -p ${DATA_DIR}
+	# cp -Rf /var/lib/mysql/* ${DATA_DIR}/
+	# chown -R mysql:mysql ${DATA_DIR}
 	
 	rm -rf /etc/my.cnf.d/*
 	wget -cO /etc/my.cnf.d/server.cnf ${D_url}/Mysql/my.cnf
@@ -556,8 +550,12 @@ mariadb()
 	")
 	echo "${SECURE_MYSQL}"
 	echo ${db_root_password} > /tmp/mysql_password.txt
-	/usr/bin/firewall-cmd --zone=public --add-port=3306/tcp --permanent
-	/usr/bin/firewall-cmd --reload
+	if [ -f /usr/bin/firewall-cmd ];then
+		/usr/bin/firewall-cmd --zone=public --add-port=3306/tcp --permanent
+		/usr/bin/firewall-cmd --reload
+	else
+		echo "请手动检查防火墙配置！"
+	fi
 	elif [[ ${action} -eq 2 ]]; then
 		echo -ne "\033[31m是否创建XtraBackup授权账号\033[0m(只需在DB1上设置一次,y/n):"
 		read xtrabackup_name
@@ -587,10 +585,6 @@ EOF
 		sed -i "s#wsrep_sst_auth=#wsrep_sst_auth=sst:${sst_password}#" /tmp/galera.conf
 		sed -i '/=2/ r /tmp/galera.conf' /etc/my.cnf.d/server.cnf
 		sed -i "s#bind-address = 0.0.0.0#bind-address = ${node_ip}#" /etc/my.cnf.d/server.cnf
-		/usr/bin/firewall-cmd --zone=public --add-port=4567/tcp --permanent
-		/usr/bin/firewall-cmd --zone=public --add-port=4568/tcp --permanent
-		/usr/bin/firewall-cmd --zone=public --add-port=4444/tcp --permanent
-		/usr/bin/firewall-cmd --reload
 
 		if [ $? -eq 0 ]; then
 			echo -ne "\033[34m是否启动Galera_Cluster(y/n):\033[0m"
@@ -600,6 +594,15 @@ EOF
 			else
 				systemctl start mysql
 			fi
+		fi
+		sleep 3
+		if [ -f /usr/bin/firewall-cmd ];then
+			/usr/bin/firewall-cmd --zone=public --add-port=4567/tcp --permanent
+			/usr/bin/firewall-cmd --zone=public --add-port=4568/tcp --permanent
+			/usr/bin/firewall-cmd --zone=public --add-port=4444/tcp --permanent
+			/usr/bin/firewall-cmd --reload
+		else
+			echo "请手动检查防火墙配置！"
 		fi
 	fi
 	if [[ ${action} -eq 0 ]]; then
@@ -666,8 +669,12 @@ EOF
 		sed -i "s#default-soa-mail=#default-soa-mail=admin.${host_name}#" /etc/pdns/pdns.conf
 		sed -i "s#default-soa-name=#default-soa-name=${host_name}#" /etc/pdns/pdns.conf
 
-		/usr/bin/firewall-cmd --zone=public --add-port=53/udp --permanent
-		/usr/bin/firewall-cmd --reload
+		if [ -f /usr/bin/firewall-cmd ];then
+			/usr/bin/firewall-cmd --zone=public --add-port=53/udp --permanent
+			/usr/bin/firewall-cmd --reload
+		else
+			echo "请手动检查防火墙配置！"
+		fi
 			
 		systemctl enable pdns
 		systemctl start pdns
@@ -706,8 +713,12 @@ EOF
 		sed -i "s#gmysql-password=#gmysql-password=${db_user_password}#" /etc/pdns/pdns.conf
 		sed -i "s#gmysql-dbname=#gmysql-dbname=${db_name}#" /etc/pdns/pdns.conf
 
-		/usr/bin/firewall-cmd --zone=public --add-port=53/udp --permanent
-		/usr/bin/firewall-cmd --reload
+		if [ -f /usr/bin/firewall-cmd ];then
+			/usr/bin/firewall-cmd --zone=public --add-port=53/udp --permanent
+			/usr/bin/firewall-cmd --reload
+		else
+			echo "请手动检查防火墙配置！"
+		fi
 		
 		systemctl enable pdns
 		systemctl start pdns
@@ -745,7 +756,7 @@ trusted-host=pypi.doubanio.com
 EOF
 		fi
 
-		yum install python34 python34-devel python-pip mariadb-devel openldap-devel xmlsec1-devel xmlsec1-openssl libtool-ltdl-devel -y
+		yum install python34 python34-devel python-pip gcc mariadb-devel openldap-devel xmlsec1-devel xmlsec1-openssl libtool-ltdl-devel -y
 
 		pip install -U pip
 		pip install -U virtualenv
