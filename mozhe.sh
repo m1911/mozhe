@@ -86,7 +86,7 @@ Check_os()
 			if [[ ! -d /usr/local/mozhe && ! -d  /data/mariadb ]]; then #判断nginx和mysql目录是否存在进行安装依赖
 				if [ "${country}" = "CN" ]; then
 					mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
-					curl -o /etc/yum.repos.d/CentOS-Base.repo -L ${D_url}/rpm/CentOS-Base.repo
+					curl -o /etc/yum.repos.d/CentOS-Base.repo -L ${D_url}/show/rpm/CentOS-Base.repo
 					yum makecache
 					yum -y install epel-release
 					sed -e 's!^mirrorlist=!#mirrorlist=!g' \
@@ -147,35 +147,35 @@ Install_extensions()
 {
 	mkdir -p /tmp/src
 	cd /tmp/src
-	 wget -c ${D_url}/Nginx/extended/jemalloc-5.1.0.tar.bz2
+	 wget -c ${D_url}/show/Nginx/extended/jemalloc-5.1.0.tar.bz2
 	tar xjf jemalloc-5.1.0.tar.bz2 &&cd jemalloc-5.1.0
 	./configure
     make -j${cpu} &&make -j${cpu} install
     echo '/usr/local/lib' > /etc/ld.so.conf.d/local.conf
     ldconfig &&cd ..
 	
-	wget -c ${D_url}/Nginx/extended/openssl-1.1.0i.tar.gz
+	wget -c ${D_url}/show/Nginx/extended/openssl-1.1.0i.tar.gz
 	tar zxf openssl-1.1.0i.tar.gz &&cd openssl-1.1.0i
 	./config
 	make -j${cpu} &&make -j${cpu} install
 	cd ..
 	
-	wget -c ${D_url}/Nginx/extended/pcre-8.39.tar.bz2
+	wget -c ${D_url}/show/Nginx/extended/pcre-8.39.tar.bz2
 	tar xjf pcre-8.39.tar.bz2 &&cd pcre-8.39
 	./configure
 	make -j${cpu} &&make -j${cpu} install
 	cd ..
 	
-	wget -cO v1.13.35.2-stable.tar.gz ${D_url}/Nginx/extended/incubator-pagespeed-ngx-1.13.35.2-stable.tar.gz
+	wget -cO v1.13.35.2-stable.tar.gz ${D_url}/show/Nginx/extended/incubator-pagespeed-ngx-1.13.35.2-stable.tar.gz
 	tar zxf v1.13.35.2-stable.tar.gz
 	mv incubator-pagespeed-ngx-1.13.35.2-stable ngx_pagespeed &&cd ngx_pagespeed
-	wget -c ${D_url}/Nginx/extended/1.13.35.2-x64.tar.gz
+	wget -c ${D_url}/show/Nginx/extended/1.13.35.2-x64.tar.gz
 	tar zxf 1.13.35.2-x64.tar.gz &&cd ..
 	
-	wget -c ${D_url}/Nginx/extended/ngx_brotli.tgz
+	wget -c ${D_url}/show/Nginx/extended/ngx_brotli.tgz
 	tar zxf ngx_brotli.tgz
 	
-	wget -c ${D_url}/Nginx/extended/ngx_cache_purge-2.5.tar.gz
+	wget -c ${D_url}/show/Nginx/extended/ngx_cache_purge-2.5.tar.gz
 	tar zxf ngx_cache_purge-2.5.tar.gz
 }
 #安装nginx
@@ -200,21 +200,21 @@ Install_nginx()
 	make &&make install
 	ln -s ${Install_dir}/nginx/sbin/* /usr/local/sbin/
 	mv ${Install_dir}/nginx/conf/nginx.conf ${Install_dir}/nginx/conf/nginx.conf_bak
-	wget -cO ${Install_dir}/nginx/conf/nginx.conf ${D_url}/Nginx/conf/nginx.conf
+	wget -cO ${Install_dir}/nginx/conf/nginx.conf ${D_url}/show/Nginx/conf/nginx.conf
 	mkdir -p ${Install_dir}/nginx/conf/vhost ${Install_dir}/nginx/conf/ssl
-	wget -cO /lib/systemd/system/nginx.service ${D_url}/Nginx/nginx.service
+	wget -cO /lib/systemd/system/nginx.service ${D_url}/show/Nginx/nginx.service
 	${Install_dir}/nginx/sbin/nginx -t
 	if [ $? -eq 0 ]; then
 		systemctl enable nginx
 		systemctl start nginx
 		systemctl status nginx
-	fi
-	if [ -f /usr/bin/firewall-cmd ];then
-		/usr/bin/firewall-cmd --zone=public --add-port=80/tcp --permanent
-		/usr/bin/firewall-cmd --zone=public --add-port=443/tcp --permanent
-		/usr/bin/firewall-cmd --reload
-	else
-		echo "请手动检查防火墙配置！"
+		if [ -f /usr/bin/firewall-cmd ];then
+			/usr/bin/firewall-cmd --zone=public --add-port=80/tcp --permanent
+			/usr/bin/firewall-cmd --zone=public --add-port=443/tcp --permanent
+			/usr/bin/firewall-cmd --reload
+		else
+			echo "请手动检查防火墙配置！"
+		fi
 	fi
 	end_time=$(date +%s)
 	cost_time=$((end_time - begin_time))
@@ -250,7 +250,7 @@ Add_ssl_host()
 			fi
 			u_name=${domain//./_}_web #把域名的.转换成_。
 			CACHE=${domain//./_}
-			wget -cO ${Install_dir}/nginx/conf/vhost/${domain}.conf ${D_url}/Nginx/conf/example_ssl.conf
+			wget -cO ${Install_dir}/nginx/conf/vhost/${domain}.conf ${D_url}/show/Nginx/conf/example_ssl.conf
 			sed -i "s#mozhe_xx#${CACHE}#g" ${Install_dir}/nginx/conf/vhost/${domain}.conf
 			sed -i "s#domainweb#${u_name}#g" ${Install_dir}/nginx/conf/vhost/${domain}.conf
 			sed -i "s#0.0.0.0#${Backend_ip}#" ${Install_dir}/nginx/conf/vhost/${domain}.conf
@@ -296,7 +296,7 @@ Add_host()
 			fi
 			u_name=${domain//./_}_web #把域名的.转换成_。
 			CACHE=${domain//./_}
-			wget -cO ${Install_dir}/nginx/conf/vhost/${domain}.conf ${D_url}/Nginx/conf/example.conf
+			wget -cO ${Install_dir}/nginx/conf/vhost/${domain}.conf ${D_url}/show/Nginx/conf/example.conf
 			sed -i "s#mozhe_xx#${CACHE}#g" ${Install_dir}/nginx/conf/vhost/${domain}.conf
 			sed -i "s#domainweb#${u_name}#g" ${Install_dir}/nginx/conf/vhost/${domain}.conf
 			sed -i "s#0.0.0.0#${Backend_ip}#" ${Install_dir}/nginx/conf/vhost/${domain}.conf
@@ -352,7 +352,7 @@ Add_pdns_host()
 			echo "Key路径不能为空"
 			exit
 		fi
-		wget -cO ${Install_dir}/nginx/conf/vhost/${domain}.conf ${D_url}/Nginx/conf/pdns.conf
+		wget -cO ${Install_dir}/nginx/conf/vhost/${domain}.conf ${D_url}/show/show/Nginx/conf/pdns.conf
 		sed -i "s#server_name example.com#server_name ${domain} ${moredomain}#" ${Install_dir}/nginx/conf/vhost/${domain}.conf
 		sed -i "s#example.com#${domain}#g" ${Install_dir}/nginx/conf/vhost/${domain}.conf
 		sed -i "s#/web#${web_dir}#g" ${Install_dir}/nginx/conf/vhost/${domain}.conf
@@ -427,7 +427,7 @@ Install_Lsyncd()
 	elif [ ! -e /usr/bin/rsync ]; then
 		yum -y install rsync lsyncd
 		mv /etc/lsyncd.conf /etc/lsyncd.conf_bak
-		wget -cO /etc/lsyncd.conf ${D_url}/Nginx/conf/lsyncd.conf
+		wget -cO /etc/lsyncd.conf ${D_url}/show/Nginx/conf/lsyncd.conf
 		sed -i '10i\\t'"\"${sync_ip}\"" /etc/lsyncd.conf
 		sed -i "s#port = 22#port = ${port}#g" /etc/lsyncd.conf
 		systemctl enable lsyncd
@@ -436,7 +436,7 @@ Install_Lsyncd()
 	else
 		yum -y install lsyncd
 		mv /etc/lsyncd.conf /etc/lsyncd.conf_bak
-		wget -cO /etc/lsyncd.conf ${D_url}/Nginx/conf/lsyncd.conf
+		wget -cO /etc/lsyncd.conf ${D_url}/show/Nginx/conf/lsyncd.conf
 		sed -i '10i\\t'"\"${sync_ip}\"" /etc/lsyncd.conf
 		sed -i "s#port = 22#port = ${port}#g" /etc/lsyncd.conf
 		systemctl enable lsyncd
@@ -490,10 +490,10 @@ Sync_servers()
 add_rpm()
 {
 	if [ "${country}" = "CN" ]; then
-		wget -cO /etc/yum.repos.d/mariadb.repo ${D_url}/rpm/mariadb-cn.repo
+		wget -cO /etc/yum.repos.d/mariadb.repo ${D_url}/show/rpm/mariadb-cn.repo
 		rpm --import https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
 	else
-		wget -cO /etc/yum.repos.d/mariadb.repo ${D_url}/rpm/mariadb-us.repo
+		wget -cO /etc/yum.repos.d/mariadb.repo ${D_url}/show/rpm/mariadb-us.repo
 		rpm --import https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
 	fi
 }
@@ -523,7 +523,7 @@ mariadb()
 	# chown -R mysql:mysql ${DATA_DIR}
 	
 	rm -rf /etc/my.cnf.d/*
-	wget -cO /etc/my.cnf.d/server.cnf ${D_url}/Mysql/my.cnf
+	wget -cO /etc/my.cnf.d/server.cnf ${D_url}/show/Mysql/my.cnf
 	
 	systemctl start mariadb
 	#开始配置Mysql_secure_installation
@@ -576,8 +576,8 @@ EOF
 		read -p "输入节点名称:" node_name
 		read -p "输入节点IP:" node_ip
 		
-		yum install ${D_url}/rpm/percona-xtrabackup-24-2.4.4-1.el7.x86_64.rpm -y
-		wget -cO /tmp/galera.conf ${D_url}/Mysql/galera.conf
+		yum install ${D_url}/show/rpm/percona-xtrabackup-24-2.4.4-1.el7.x86_64.rpm -y
+		wget -cO /tmp/galera.conf ${D_url}/show/Mysql/galera.conf
 		sed -i "s#wsrep_cluster_name=#wsrep_cluster_name=\"${cluster_name}\"#" /tmp/galera.conf
 		sed -i "s#wsrep_cluster_address=#wsrep_cluster_address=\"gcomm://${cluster_ip}\"#" /tmp/galera.conf
 		sed -i "s#wsrep_node_name=#wsrep_node_name=${node_name}#" /tmp/galera.conf
@@ -645,7 +645,7 @@ Install_pdns()
 		#设置主机名
 		/usr/bin/hostnamectl set-hostname ${host_name}
 		#安装pdns
-		wget -cO /etc/yum.repos.d/powerdns-auth-master.repo ${D_url}/rpm/centos-auth-master.repo
+		wget -cO /etc/yum.repos.d/powerdns-auth-master.repo ${D_url}/show/rpm/centos-auth-master.repo
 		rpm --import https://repo.powerdns.com/CBC8B383-pub.asc
 		yum install pdns pdns-backend-mysql -y
 		
@@ -657,11 +657,11 @@ Install_pdns()
 		GRANT ALL ON ${db_name}.* TO '${db_user}'@'localhost' IDENTIFIED BY '${db_user_password}';
 		FLUSH PRIVILEGES;
 EOF
-		wget -cO /tmp/pdns.sql ${D_url}/Mysql/pdns.sql
+		wget -cO /tmp/pdns.sql ${D_url}/show/Mysql/pdns.sql
 		mysql -u ${username} -p${db_root_password} -D ${db_name} < /tmp/pdns.sql
 	#设置pdns配置文件
 		mv /etc/pdns/pdns.conf /etc/pdns/pdns.conf_back
-		wget -cO /etc/pdns/pdns.conf ${D_url}/PowerDNS/pdns_master.conf
+		wget -cO /etc/pdns/pdns.conf ${D_url}/show/PowerDNS/pdns_master.conf
 		sed -i "s#gmysql-user=#gmysql-user=${db_user}#" /etc/pdns/pdns.conf
 		sed -i "s#gmysql-password=#gmysql-password=${db_user_password}#" /etc/pdns/pdns.conf
 		sed -i "s#gmysql-dbname=#gmysql-dbname=${db_name}#" /etc/pdns/pdns.conf
@@ -702,13 +702,13 @@ EOF
 	
 		#设置主机名
 		/usr/bin/hostnamectl set-hostname ${host_name}
-		wget -cO /etc/yum.repos.d/powerdns-auth-master.repo ${D_url}/rpm/centos-auth-master.repo
+		wget -cO /etc/yum.repos.d/powerdns-auth-master.repo ${D_url}/show/rpm/centos-auth-master.repo
 		rpm --import https://repo.powerdns.com/CBC8B383-pub.asc
 		yum install pdns pdns-backend-mysql -y
 		
 		#设置pdns配置文件
 		mv /etc/pdns/pdns.conf /etc/pdns/pdns.conf_back
-		wget -cO /etc/pdns/pdns.conf ${D_url}/PowerDNS/pdns_slave.conf
+		wget -cO /etc/pdns/pdns.conf ${D_url}/show/PowerDNS/pdns_slave.conf
 		sed -i "s#gmysql-user=#gmysql-user=${db_user}#" /etc/pdns/pdns.conf
 		sed -i "s#gmysql-password=#gmysql-password=${db_user_password}#" /etc/pdns/pdns.conf
 		sed -i "s#gmysql-dbname=#gmysql-dbname=${db_name}#" /etc/pdns/pdns.conf
