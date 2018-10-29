@@ -745,7 +745,7 @@ trusted-host=pypi.doubanio.com
 EOF
 		fi
 
-		yum install python34 python34-devel python-pip gcc mariadb-devel openldap-devel xmlsec1-devel xmlsec1-openssl libtool-ltdl-devel -y
+		yum install python34 python34-devel python-pip mariadb-devel openldap-devel xmlsec1-devel xmlsec1-openssl libtool-ltdl-devel -y
 
 		pip install -U pip
 		pip install -U virtualenv
