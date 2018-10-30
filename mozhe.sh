@@ -352,7 +352,7 @@ Add_pdns_host()
 			echo "Key路径不能为空"
 			exit
 		fi
-		wget -cO ${Install_dir}/nginx/conf/vhost/${domain}.conf ${D_url}/show/show/Nginx/conf/pdns.conf
+		wget -cO ${Install_dir}/nginx/conf/vhost/${domain}.conf ${D_url}/show/Nginx/conf/pdns.conf
 		sed -i "s#server_name example.com#server_name ${domain} ${moredomain}#" ${Install_dir}/nginx/conf/vhost/${domain}.conf
 		sed -i "s#example.com#${domain}#g" ${Install_dir}/nginx/conf/vhost/${domain}.conf
 		sed -i "s#/web#${web_dir}#g" ${Install_dir}/nginx/conf/vhost/${domain}.conf
@@ -517,11 +517,7 @@ mariadb()
 	setenforce 0
 	
 	yum install MariaDB-server MariaDB-client galera -y
-	
-	# mkdir -p ${DATA_DIR}
-	# cp -Rf /var/lib/mysql/* ${DATA_DIR}/
-	# chown -R mysql:mysql ${DATA_DIR}
-	
+
 	rm -rf /etc/my.cnf.d/*
 	wget -cO /etc/my.cnf.d/server.cnf ${D_url}/show/Mysql/my.cnf
 	
@@ -812,7 +808,7 @@ ExecStart=${PDNSAdmin_WEB_DIR}/flask/bin/gunicorn --workers 2 --bind unix:${PDNS
 WantedBy=multi-user.target
 EOF
 		chmod 755 /etc/systemd/system/powerdns-admin.service
-		systemctl daemon-reload &&systemctl start powerdns-admin &&systemctl enable powerdns-admin
+		systemctl daemon-reload &&systemctl enable powerdns-admin &&systemctl start powerdns-admin
 	fi
 
 	if [[ ${action} = [nN] ]]; then
