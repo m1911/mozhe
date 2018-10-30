@@ -19,4 +19,14 @@ chmod u+x mozhe.sh 添加执行权限默认只能使用sh mozhe.sh <br>
 ### 用法3: mozhe pdns {mysql|install|admin} <br>
 		mysql：安装mysql <br>
 		install：安装pdns <br>
-		admin：安装PowerDNS-Admin
+		admin：安装PowerDNS-Admin <br>
+
+# 目录说明
+```
+Nginx安装目录：/usr/local/mozhe
+Mysql目录：/var/lib/mysql
+Mysql配置文件目录：/etc/my.cnf.d/
+Pdns配置文件目录：/etc/pdns/
+PDNSAdmin安装目录：/home/pdns_admin
+```
+
