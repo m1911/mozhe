@@ -581,6 +581,15 @@ EOF
 		sed -i '/=2/ r /tmp/galera.conf' /etc/my.cnf.d/server.cnf
 		sed -i "s#bind-address = 0.0.0.0#bind-address = ${node_ip}#" /etc/my.cnf.d/server.cnf
 
+		if [ -f /usr/bin/firewall-cmd ];then
+			/usr/bin/firewall-cmd --zone=public --add-port=4567/tcp --permanent
+			/usr/bin/firewall-cmd --zone=public --add-port=4568/tcp --permanent
+			/usr/bin/firewall-cmd --zone=public --add-port=4444/tcp --permanent
+			/usr/bin/firewall-cmd --reload
+		else
+			echo "请手动检查防火墙配置！"
+		fi
+		
 		if [ $? -eq 0 ]; then
 			echo -ne "\033[34m是否启动Galera_Cluster(y/n):\033[0m"
 			read action2
@@ -589,15 +598,6 @@ EOF
 			else
 				systemctl start mysql
 			fi
-		fi
-		sleep 3
-		if [ -f /usr/bin/firewall-cmd ];then
-			/usr/bin/firewall-cmd --zone=public --add-port=4567/tcp --permanent
-			/usr/bin/firewall-cmd --zone=public --add-port=4568/tcp --permanent
-			/usr/bin/firewall-cmd --zone=public --add-port=4444/tcp --permanent
-			/usr/bin/firewall-cmd --reload
-		else
-			echo "请手动检查防火墙配置！"
 		fi
 	fi
 	if [[ ${action} -eq 0 ]]; then
