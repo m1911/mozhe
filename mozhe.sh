@@ -514,7 +514,6 @@ mariadb()
 	fi
 	Check_os
 	add_rpm
-	setenforce 0
 	
 	yum install MariaDB-server MariaDB-client galera -y
 
