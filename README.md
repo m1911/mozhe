@@ -8,18 +8,18 @@
 chmod u+x mozhe.sh 添加执行权限默认只能使用sh mozhe.sh <br>
 
 ### 用法1: mozhe nginx {install|add|ssl|pdns} <br>
-		install：安装nginx <br>
-		add：添加vhost <br>
-		ssl：添加https_vhost <br>
-		pdns：添加pdns_admin vhost <br>
-### 用法2: mozhe rsync {key|install|sync} <br>
-		key：创建ssh免登陆key <br>
-		install：安装Lsyncd <br>
-		sync：添加同步服务器 <br>
-### 用法3: mozhe pdns {mysql|install|admin} <br>
-		mysql：安装mysql <br>
-		install：安装pdns <br>
-		admin：安装PowerDNS-Admin <br>
+		install：安装nginx
+		add：添加vhost
+		ssl：添加https_vhost
+		pdns：添加pdns_admin vhost
+### 用法2: mozhe rsync {key|install|sync}
+		key：创建ssh免登陆key
+		install：安装Lsyncd
+		sync：添加同步服务器
+### 用法3: mozhe pdns {mysql|install|admin}
+		mysql：安装mysql
+		install：安装pdns
+		admin：安装PowerDNS-Admin
 
 # 目录说明
 ```
