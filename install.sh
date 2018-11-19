@@ -36,7 +36,7 @@ Function_vhost()
 			Add_pdns_host
             ;;            
         *)
-            echo "用法: install vhost {add|ssl|pdns}"
+            echo "用法: install.sh vhost {add|ssl|pdns}"
             exit 1
             ;;
     esac
@@ -55,7 +55,7 @@ Function_rsync()
 			Sync_servers
             ;;
         *)
-            echo "用法: install rsync {key|install|sync}"
+            echo "用法: install.sh rsync {key|install|sync}"
             exit 1
             ;;
     esac
@@ -74,7 +74,7 @@ Function_mysql()
             configNODEserver 2>&1 /tmp/configNODEserver.log
             ;;
         *)
-            echo "用法: install mysql {install|pxc|node}"
+            echo "用法: install.sh mysql {install|init|node}"
             exit 1
             ;;
     esac
@@ -93,7 +93,7 @@ Function_pdns()
 			installPDNSadmin 2>&1 /tmp/installPDNSadmin.log
             ;;
         *)
-            echo "用法: install pdns {install|node|admin}"
+            echo "用法: install.sh pdns {install|node|admin}"
             exit 1
             ;;
     esac
@@ -119,11 +119,11 @@ case ${arg1} in
         Function_vhost ${arg2}
         ;;
     *)
-		echo "用法: install nginx"
-		echo "用法: install rsync {key|install|sync}"
-        echo "用法: install mysql {install|pxc|node}"
-		echo "用法: install pdns {install|node|admin}"
-        echo "用法: install vhost {add|ssl|pdns}"
+		echo "用法: install.sh nginx"
+		echo "用法: install.sh rsync {key|install|sync}"
+        echo "用法: install.sh mysql {install|init|node}"
+		echo "用法: install.sh pdns {install|node|admin}"
+        echo "用法: install.sh vhost {add|ssl|pdns}"
 		exit 1
 		;;
 esac
