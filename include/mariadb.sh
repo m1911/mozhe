@@ -127,5 +127,9 @@ configNODEserver()
 	sed -i "s#wsrep_node_address=#wsrep_node_address=${nodeIP}#" /tmp/galera.cnf
 	sed -i "s#wsrep_sst_auth=#wsrep_sst_auth=\"sstuser:${sstPassword}\"#" /tmp/galera.cnf
 	sed -i '/#galera/ r /tmp/galera.cnf' /etc/my.cnf
+	tee /etc/systemd/system/mariadb.service.d/timeoutstartsec.conf <<EOF
+[Service] 
+TimeoutSec=infinity
+EOF
 	systemctl start mariadb
 }
