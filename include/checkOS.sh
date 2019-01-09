@@ -75,12 +75,36 @@ Check_selinux()
 		setenforce 0
 	fi
 }
+#获取CPU用来编译
+Check_cpu()
+{
+	physical_cpu=`cat /proc/cpuinfo | grep 'processor' | sort | uniq | wc -l`
+	if [ ${physical_cpu} -eq 1 ]; then
+		cpu=1
+	else
+		divisor=2
+		cpu=$[physical_cpu/divisor]
+	fi
+}
+
+checkOTTERnode()
+{
+	if [ "${country}" = "CN" ]; then
+		yum -y install epel-release 
+		sed -e 's!^mirrorlist=!#mirrorlist=!g' \
+        -e 's!^#baseurl=!baseurl=!g' \
+    	-e 's!//download\.fedoraproject\.org/pub!//mirrors.ustc.edu.cn!g' \
+    	-e 's!http://mirrors\.ustc!https://mirrors.ustc!g' \
+    	-i /etc/yum.repos.d/epel.repo /etc/yum.repos.d/epel-testing.repo
+    	yum -y install java-1.8.0-openjdk-devel gcc gcc-c++ wget openssl openssl-devel c-ares c-ares-devel jemalloc-devel
+    fi
+}
 
 add_rpm()
 {
 	if [ "${country}" = "CN" ]; then
-		wget -cO /etc/yum.repos.d/mariadb.repo ${downUrl}/show/rpm/mariadb10.2-cn.repo
+		wget -cO /etc/yum.repos.d/mariadb.repo ${downUrl}/show/rpm/mariadb-cn.repo
 	else
-		wget -cO /etc/yum.repos.d/mariadb.repo ${downUrl}/show/rpm/mariadb10.2-us.repo
+		wget -cO /etc/yum.repos.d/mariadb.repo ${downUrl}/show/rpm/mariadb-us.repo
 	fi
 }
